@@ -71,7 +71,7 @@
                     s = random.Next(1, 10); 
                 } while (pole[r, s] == 'O'); // pokud na vygenerovaných souřadnicích již je mina, vygeneruj nové souřadnice
 
-                pole[r, s] = 'O'; // umístění miny na herní pole
+                pole[r, s] = '!'; // umístění miny na herní pole
             }
         }
 
@@ -106,22 +106,22 @@
         {
             Console.WriteLine("Chceš toto pole oznaečit jako možnou minu? a/n");
             string volba = Console.ReadLine().ToLower();
-            if (volba == "a" && pole[r, s] != 'O') //hráč zadá že chce pole označit jako minu, ale mina tam není
+            if (volba == "a" && pole[r, s] != '!') //hráč zadá že chce pole označit jako minu, ale mina tam není
             {
                 Console.WriteLine("Mina označena");
                 pole[r, s] = 'X'; //pole bylo označeno jako možná mina (může to ještě změnit, kdyby se rozmyslel)
             }
-            else if (volba == "a" && pole[r, s] == 'O') //uživatel zadá, že chce pole označit jako minu a je tam mina
+            else if (volba == "a" && pole[r, s] == '!') //uživatel zadá, že chce pole označit jako minu a je tam mina
             {
                 Console.WriteLine("Mina označena");
                 pole[r, s] = 'X';
             }
-            else if (volba != "a" && pole[r, s] == 'O') // neoznačil jako možnou minu, ale mina tam je
+            else if (volba != "a" && pole[r, s] == '!') // neoznačil jako možnou minu, ale mina tam je
             {
                 Console.WriteLine("Vybuchli jste! Hra skončila");
                 Environment.Exit(0); //ukončení
             }
-            else if (volba != "a" && pole[r, s] != 'O')
+            else if (volba != "a" && pole[r, s] != '!')
             {
                 Console.WriteLine("Správně, žádná mina tu nebyla.");
                 //UkazatelMin(pole, r, s);
@@ -141,7 +141,7 @@
                     if (i >= 1 && i <= 9 && j >= 1 && j <= 9)
                     {
                         //kontrola, zda je tam mina
-                        if (pole[r,s] == 'O')
+                        if (pole[r,s] == '!')
                         {
                             miny++;
                         }
@@ -149,7 +149,7 @@
                 }
             }
 
-            pole[r, s] = (char)(miny + 'O');
+            pole[r, s] = (char)(miny + '!');
         }
 
         static bool CelePoleProjite(char[,] pole)
