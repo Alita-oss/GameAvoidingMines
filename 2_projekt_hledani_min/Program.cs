@@ -69,8 +69,7 @@
                 {
                     r = random.Next(1, 10); 
                     s = random.Next(1, 10); 
-                } while (pole[r, s] == 'O'); // pokud na vygenerovaných souřadnicích již je mina, vygeneruj nové souřadnice
-
+                } while (pole[r, s] == '!'); // pokud na vygenerovaných souřadnicích již je mina, vygeneruj nové souřadnice
                 pole[r, s] = '!'; // umístění miny na herní pole
             }
         }
@@ -100,57 +99,89 @@
             }
 
             KontrolaTahu(pole, r, s);
+            UkazatelMin(pole, r, s);
+            //OdkryjPole(pole, r, s);
         }
 
         static void KontrolaTahu(char[,] pole, int r, int s)
         {
             Console.WriteLine("Chceš toto pole oznaečit jako možnou minu? a/n");
             string volba = Console.ReadLine().ToLower();
-            if (volba == "a" && pole[r, s] != '!') //hráč zadá že chce pole označit jako minu, ale mina tam není
+            if (volba == "a") //hráč zadá že chce pole označit jako minu
             {
                 Console.WriteLine("Mina označena");
                 pole[r, s] = 'X'; //pole bylo označeno jako možná mina (může to ještě změnit, kdyby se rozmyslel)
             }
-            else if (volba == "a" && pole[r, s] == '!') //uživatel zadá, že chce pole označit jako minu a je tam mina
-            {
-                Console.WriteLine("Mina označena");
-                pole[r, s] = 'X';
-            }
             else if (volba != "a" && pole[r, s] == '!') // neoznačil jako možnou minu, ale mina tam je
             {
                 Console.WriteLine("Vybuchli jste! Hra skončila");
-                Environment.Exit(0); //ukončení
+                //Environment.Exit(0); //ukončení
             }
             else if (volba != "a" && pole[r, s] != '!')
             {
                 Console.WriteLine("Správně, žádná mina tu nebyla.");
-                //UkazatelMin(pole, r, s);
                 //pole[r, s] = '/'; //aby hráč věděl, že už to zadával
             }
         }
 
         static void UkazatelMin(char[,] pole, int r, int s) 
         {
+            if (pole[r, s] == 'X') // Pokud je pole označeno jako možná mina 'X', neděláme nic
+            {
+                return;
+            }
+
             int miny = 0;
             //procházení okolí zadaného políčka hráčem
             for (int i = r - 1; i <= r + 1; i++)
             {
-                for (int j = s -1; j <= s+ 1; s++)
+                for (int j = s - 1; j <= s + 1; j++)
                 {
                     //kontrola, zda je to ještě v herním poli
                     if (i >= 1 && i <= 9 && j >= 1 && j <= 9)
                     {
                         //kontrola, zda je tam mina
-                        if (pole[r,s] == '!')
+                        if (pole[i, j] == '!' || pole[i,j] == 'X')
                         {
                             miny++;
                         }
                     }
                 }
             }
-
-            pole[r, s] = (char)(miny + '!');
+            pole[r, s] = (char)(miny + '0'); 
         }
+
+       /* static void OdkryjPole(char[,] pole, int r, int s)
+        {
+            // pokud mimo rozsah herního pole nebo již bylo pole odkryto, ukončíme 
+            if (r < 0 || r >= pole.GetLength(0) || s < 0 || s >= pole.GetLength(1) || pole[r, s] != '-')
+                return;
+
+            // pokud je na poli mina, necháme pole zakryté
+            if (pole[r, s] == '!')
+                return;
+
+            // Pokud je pole označeno jako '0', odkryjeme ho a odkryjeme také okolní pole
+            if (pole[r, s] == '0')
+            {
+                pole[r, s] = '/';
+                for (int i = r - 1; i <= r + 1; i++)
+                {
+                    for (int j = s - 1; j <= s + 1; j++)
+                    {
+                        if (i >= 0 && i < pole.GetLength(0) && j >= 0 && j < pole.GetLength(1))
+                        {
+                            OdkryjPole(pole, i, j);
+                        }       
+                    }
+                }
+            }
+            else
+            {
+                // pokud je na poli číslo, odkryjeme ho
+                pole[r, s] = '/';
+            }
+        }*/
 
         static bool CelePoleProjite(char[,] pole)
         {
@@ -172,10 +203,19 @@
             for (int r = 0; r < pole.GetLength(0); r++)
             {
                 for (int s = 0; s < pole.GetLength(1); s++)
-                {
-                    //char kryti = (pole[r, s] == 'O' ? '-' : pole[r, s]); //skryje nám miny
-                    //Console.Write(kryti + " ");
-                    Console.Write(pole[r, s] + " "); //miny jsou vidět
+                {   
+                    if (pole[r, s] == 'X')
+                    {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.Write(pole[r, s] + " ");
+                        Console.ResetColor();
+                    } else
+                    {
+                        //char kryti = (pole[r, s] == 'O' ? '-' : pole[r, s]); //skryje nám miny
+                        //Console.Write(kryti + " ");
+                        Console.Write(pole[r, s] + " "); //miny jsou vidět
+                    }
+                   
                 }
                 Console.WriteLine();
             }
