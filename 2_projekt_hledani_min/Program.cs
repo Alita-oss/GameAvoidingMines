@@ -5,8 +5,6 @@
         static void Main(string[] args)
         {
             //dodělat UkazatelMin() a pak to bude už vše ne? to je to jediné co mi teď chybí, časem určitě přijdu na další věci
-            // měla bych udělat to, že na začátku je určitý počet min, takže jich tolik taky můžeš jen položit (aby všude nedávali možnou minu) => 
-            //když někde označí špatně tak jim to nevyjde na konci a nebo si to pak spletou => vybuchnou :)
             bool znova;
             do
             {
@@ -25,8 +23,8 @@
                 Console.WriteLine("Hra skončila");
 
                 Console.WriteLine("Chceš hrát znova?");
-                string volba = Console.ReadLine().ToUpper();
-                znova = (volba == "a");
+                string volba = Console.ReadLine().ToLower();
+                znova = (volba == "A");
             } while (znova); 
         }
 
@@ -115,7 +113,7 @@
             else if (volba != "a" && pole[r, s] == '!') // neoznačil jako možnou minu, ale mina tam je
             {
                 Console.WriteLine("Vybuchli jste! Hra skončila");
-                //Environment.Exit(0); //ukončení
+                Environment.Exit(0); //ukončení
             }
             else if (volba != "a" && pole[r, s] != '!')
             {
@@ -153,11 +151,11 @@
 
        /* static void OdkryjPole(char[,] pole, int r, int s)
         {
-            // pokud mimo rozsah herního pole nebo již bylo pole odkryto, ukončíme 
+            // pokud mimo rozsah herního pole nebo již bylo pole odkryto => konec 
             if (r < 0 || r >= pole.GetLength(0) || s < 0 || s >= pole.GetLength(1) || pole[r, s] != '-')
                 return;
 
-            // pokud je na poli mina, necháme pole zakryté
+            // pokud je na poli mina => pole zakryté
             if (pole[r, s] == '!')
                 return;
 
@@ -189,7 +187,7 @@
             {
                 for (int s = 1; s < pole.GetLength(1); s++)
                 {
-                    if (pole[r,s] == '-')
+                    if (pole[r,s] == '-' || pole[r,s] == '!')
                     {
                         return false;
                     }
@@ -211,9 +209,9 @@
                         Console.ResetColor();
                     } else
                     {
-                        //char kryti = (pole[r, s] == 'O' ? '-' : pole[r, s]); //skryje nám miny
-                        //Console.Write(kryti + " ");
-                        Console.Write(pole[r, s] + " "); //miny jsou vidět
+                        char kryti = (pole[r, s] == '!' ? '-' : pole[r, s]); //skryje nám miny
+                        Console.Write(kryti + " ");
+                        //Console.Write(pole[r, s] + " "); //miny jsou vidět
                     }
                    
                 }
