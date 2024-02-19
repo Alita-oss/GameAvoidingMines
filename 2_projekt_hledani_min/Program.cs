@@ -1,17 +1,20 @@
-﻿namespace _2_projekt_hledani_min
+﻿using System.Runtime.InteropServices;
+
+namespace _2_projekt_hledani_min
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            //dodělat UkazatelMin() a pak to bude už vše ne? to je to jediné co mi teď chybí, časem určitě přijdu na další věci
             bool znova;
             do
             {
                 char[,] herniPole = VyplnPole();
                 UmisteniMin(herniPole);
                 Console.WriteLine("Vítejte ve hře Hledání min!");
-                //Console.WriteLine("Musíte se vyhnout minimálně 5 minám!");
+                int pocetMin = 10;
+                Console.WriteLine($"Musíte se vyhnout {pocetMin} minám!");
+                Console.WriteLine();
 
                 do
                 {
@@ -24,7 +27,8 @@
 
                 Console.WriteLine("Chceš hrát znova?");
                 string volba = Console.ReadLine().ToLower();
-                znova = (volba == "A");
+                Console.ReadKey();
+                znova = (volba == "a");
             } while (znova); 
         }
 
@@ -98,7 +102,6 @@
 
             KontrolaTahu(pole, r, s);
             UkazatelMin(pole, r, s);
-            //OdkryjPole(pole, r, s);
         }
 
         static void KontrolaTahu(char[,] pole, int r, int s)
@@ -149,38 +152,6 @@
             pole[r, s] = (char)(miny + '0'); 
         }
 
-       /* static void OdkryjPole(char[,] pole, int r, int s)
-        {
-            // pokud mimo rozsah herního pole nebo již bylo pole odkryto => konec 
-            if (r < 0 || r >= pole.GetLength(0) || s < 0 || s >= pole.GetLength(1) || pole[r, s] != '-')
-                return;
-
-            // pokud je na poli mina => pole zakryté
-            if (pole[r, s] == '!')
-                return;
-
-            // Pokud je pole označeno jako '0', odkryjeme ho a odkryjeme také okolní pole
-            if (pole[r, s] == '0')
-            {
-                pole[r, s] = '/';
-                for (int i = r - 1; i <= r + 1; i++)
-                {
-                    for (int j = s - 1; j <= s + 1; j++)
-                    {
-                        if (i >= 0 && i < pole.GetLength(0) && j >= 0 && j < pole.GetLength(1))
-                        {
-                            OdkryjPole(pole, i, j);
-                        }       
-                    }
-                }
-            }
-            else
-            {
-                // pokud je na poli číslo, odkryjeme ho
-                pole[r, s] = '/';
-            }
-        }*/
-
         static bool CelePoleProjite(char[,] pole)
         {
             for (int r = 1; r < pole.GetLength(0); r++)
@@ -209,9 +180,9 @@
                         Console.ResetColor();
                     } else
                     {
-                        char kryti = (pole[r, s] == '!' ? '-' : pole[r, s]); //skryje nám miny
-                        Console.Write(kryti + " ");
-                        //Console.Write(pole[r, s] + " "); //miny jsou vidět
+                        //char kryti = (pole[r, s] == '!' ? '-' : pole[r, s]); //skryje nám miny
+                        //Console.Write(kryti + " ");
+                        Console.Write(pole[r, s] + " "); //miny jsou vidět
                     }
                    
                 }
