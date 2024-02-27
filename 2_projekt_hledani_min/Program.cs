@@ -106,12 +106,15 @@ namespace _2_projekt_hledani_min
 
         static void KontrolaTahu(char[,] pole, int r, int s)
         {
+            //int pMin = 10;
             Console.WriteLine("Chceš toto pole oznaečit jako možnou minu? a/n");
             string volba = Console.ReadLine().ToLower();
             if (volba == "a") //hráč zadá že chce pole označit jako minu
             {
-                Console.WriteLine("Mina označena");
+                //Console.WriteLine("Mina označena");
                 pole[r, s] = 'X'; //pole bylo označeno jako možná mina (může to ještě změnit, kdyby se rozmyslel)
+                //pMin--;
+                //Console.WriteLine($"Zbývá {pMin} min");
             }
             else if (volba != "a" && pole[r, s] == '!') // neoznačil jako možnou minu, ale mina tam je
             {
@@ -149,7 +152,7 @@ namespace _2_projekt_hledani_min
                     }
                 }
             }
-            pole[r, s] = (char)(miny + '0'); 
+            pole[r, s] = (char)(miny + '0'); //vypsání
         }
 
         static bool CelePoleProjite(char[,] pole)
@@ -180,9 +183,9 @@ namespace _2_projekt_hledani_min
                         Console.ResetColor();
                     } else
                     {
-                        //char kryti = (pole[r, s] == '!' ? '-' : pole[r, s]); //skryje nám miny
-                        //Console.Write(kryti + " ");
-                        Console.Write(pole[r, s] + " "); //miny jsou vidět
+                        char kryti = (pole[r, s] == '!' ? '-' : pole[r, s]); //skryje nám miny
+                        Console.Write(kryti + " ");
+                        //Console.Write(pole[r, s] + " "); //miny jsou vidět
                     }
                    
                 }
